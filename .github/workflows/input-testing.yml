@@ -1,0 +1,36 @@
+name: Test input types
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+        description: Give us a name for this new env
+        required: true
+      terms:
+        type: boolean
+        required: true
+        description: This env will be destroyed if a branch with similar name is deleted or merged to default branch. Agree?
+      platforms:
+        type: choice
+        required: true
+        description: select all the platforms you want envs to be created
+        options:
+          - web
+          - mobile
+          - tab
+          - tv
+          - xbox
+          - ps
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send greeting
+        run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+      - name: echo inputs
+        run: |
+          echo terms     : ${{inputs.terms}}
+          echo platforms : ${{inputs.platforms}}
+          echo name      : ${{inputs.name}}
